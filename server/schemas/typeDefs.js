@@ -29,13 +29,29 @@ const typeDefs = gql`
         username: String
     }
 
+    type Auth {
+        token: ID!
+        user: User
+    }
+
     type Query {
+        me: User
         users: [User]
         user(username: String!): User
         thoughts(username: String): [Thought]
         thought(_id: ID!): Thought
     }
+
+    type Mutation {
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
+        addThought(thoughtText: String!): Thought
+        addReaction(thoughtId: ID!, reactionBody: String!): Thought
+        addFriend(friendId: ID!): User
+    }
 `;
+// The login and addUser mutation both return a user. String! means it's required.
+// This means that an Auth type must return a token and can optionally include any other user data.
 
 // export the typeDefs
 module.exports = typeDefs;
